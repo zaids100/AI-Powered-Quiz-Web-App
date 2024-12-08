@@ -21,6 +21,7 @@ const QuizBox = () => {
 
   // Handle option click
   const handleClick = (option) => {
+    if (selectedOption) return; // Prevent further clicks if an option is already selected
     setSelectedOption(option); // Set selected option
     if (option === currentQuestion.answer) {
       setScore(score + 1); // Increment score if correct
@@ -31,10 +32,10 @@ const QuizBox = () => {
   const handleChangeQuestion = () => {
     if (currentIndex < quizData.questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      setSelectedOption(null); // Reset selected option for next question
+      setSelectedOption(null); // Reset selected option for the next question
     } else {
       navigate("/quiz-results", {
-        state: { score, total: quizData.questions.length }, // Pass score and total directly
+        state: { score, total: quizData.questions.length },
       });
     }
   };
@@ -64,8 +65,11 @@ const QuizBox = () => {
             return (
               <li
                 key={ind}
-                onClick={() => handleClick(option)}
+                onClick={() => handleClick(option)} // Call handler
                 className={optionStyle}
+                style={{
+                  pointerEvents: selectedOption ? "none" : "auto", // Disable clicks if an option is selected
+                }}
               >
                 {option}
               </li>
@@ -76,8 +80,10 @@ const QuizBox = () => {
         {/* Next Button */}
         <button
           onClick={handleChangeQuestion}
-          className={`mt-6 px-6 py-2 rounded-lg text-white ${selectedOption ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-500 cursor-not-allowed"}`}
-          disabled={!selectedOption}
+          className={`mt-6 px-6 py-2 rounded-lg text-white ${
+            selectedOption ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-500 cursor-not-allowed"
+          }`}
+          disabled={!selectedOption} // Disable Next button until an option is selected
         >
           {currentIndex === quizData.questions.length - 1 ? "Finish Quiz" : "Next"}
         </button>

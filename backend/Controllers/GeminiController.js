@@ -1,7 +1,7 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-
+require('dotenv').config();
 async function getQuizData(req, res) {
-    const genAI = new GoogleGenerativeAI("AIzaSyBhvjoWYlYw__NasSctrXzpmBNkz9AqhB8");
+    const genAI = new GoogleGenerativeAI(process.env.API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     // Log the received request body

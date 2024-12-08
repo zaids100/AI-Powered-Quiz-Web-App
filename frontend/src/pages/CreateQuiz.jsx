@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreateQuiz = () => {
@@ -6,7 +6,7 @@ const CreateQuiz = () => {
         topic: "",
         number: "", // Matches backend expectation
     });
-    const [quizData, setQuizData] = useState({});
+    const [quizData, setQuizData] = useState(null); // Updated to track fetched quiz data
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState(0);
 
@@ -41,21 +41,15 @@ const CreateQuiz = () => {
             }
 
             const data = await response.json();
-            setQuizData(data);
-            console.log(data);
+            return data;
         } catch (err) {
             console.error("Error creating quiz:", err.message);
             alert(err.message);
+            return null;
         }
     };
 
-    useEffect(() => {
-        if (Object.keys(quizData).length > 0) {
-            navigate("/quiz-box", { state: { quizData } });
-        }
-    }, [quizData, navigate]);
-
-    const handleCreateQuiz = (e) => {
+    const handleCreateQuiz = async (e) => {
         e.preventDefault();
         const { topic, number } = quizInfo;
 
@@ -66,6 +60,16 @@ const CreateQuiz = () => {
         setLoading(true);
         setProgress(0);
 
+        // Fetch the quiz data
+        const data = await getQuizzData();
+        if (!data) {
+            setLoading(false);
+            return; // Exit if fetching quiz data failed
+        }
+
+        setQuizData(data);
+
+        // Simulate progress bar loading
         let currentProgress = 0;
         const interval = setInterval(() => {
             currentProgress += 5;
@@ -74,9 +78,10 @@ const CreateQuiz = () => {
             if (currentProgress >= 100) {
                 clearInterval(interval);
                 setLoading(false);
-                getQuizzData();
+                // Navigate to quiz-box with fetched data
+                navigate("/quiz-box", { state: { quizData: data } });
             }
-        }, 50);
+        }, 400);
     };
 
     return (
