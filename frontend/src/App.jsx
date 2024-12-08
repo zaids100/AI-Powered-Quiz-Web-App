@@ -7,6 +7,7 @@ import CreateQuiz from './pages/CreateQuiz.jsx';
 import { useState } from 'react';
 import RefreshHandler from './RefreshHandler.jsx';
 import QuizResults from './pages/QuizResults.jsx';
+//Ritesh
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(
         localStorage.getItem('token') ? true : false
