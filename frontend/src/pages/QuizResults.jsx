@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const QuizResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { correct, incorrect } = location.state?.results || {};
+  const { score, total } = location.state || {}; // Access score and total directly
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-black text-white p-4">
@@ -13,10 +13,10 @@ const QuizResults = () => {
           Quiz Results
         </h1>
         <p className="text-3xl font-bold text-white mb-6 text-center">
-          Correct: {correct}
+          Correct: {score}
         </p>
         <p className="text-3xl font-bold text-white mb-6 text-center">
-          Incorrect: {incorrect}
+          Incorrect: {Number(total - score)}
         </p>
         <button
           onClick={() => navigate("/")}

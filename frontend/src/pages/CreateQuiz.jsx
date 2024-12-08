@@ -76,7 +76,7 @@ const CreateQuiz = () => {
                 setLoading(false);
                 getQuizzData();
             }
-        }, 500);
+        }, 50);
     };
 
     return (
