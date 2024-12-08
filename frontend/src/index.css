@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Custom Animations */
+
+/* Fade-in Animation for Main Section */
+/* Custom Animations */
+
+/* Fade-in Animation for Main Section */
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 2s ease-out;
+  }
+  
+  /* Bounce Effect for Main Heading */
+  @keyframes bounceHeading {
+    0% {
+      transform: translateY(-30px);
+    }
+    50% {
+      transform: translateY(15px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-bounceHeading {
+    animation: bounceHeading 1s ease-out;
+  }
+  
+  /* Fade-in Effect for Subheading */
+  @keyframes fadeInSubheading {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fadeInSubheading {
+    animation: fadeInSubheading 1.5s ease-out;
+  }
+  
+  
