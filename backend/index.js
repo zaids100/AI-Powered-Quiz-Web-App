@@ -18,9 +18,9 @@ app.use(cors({
     credentials : true
 }));  // Cross-Origin Resource Sharing middleware
 
-app.use('/',()=>{
-    res.send("Hello From Server");
-})
+// app.use('/',()=>{
+//     res.send("Hello From Server");
+// })
 // Routes
 app.use('/auth', authRouter);
 app.use('/history',quizHistory);
