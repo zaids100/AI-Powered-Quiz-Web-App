@@ -34,7 +34,7 @@ const QuizBox = () => {
       total : quizData.questions.length
     };
   
-    const url = `https://vercel.com/captain-calculus-projects/ai-powered-quiz-web-app/history/add-quiz-history`;
+    const url = `http://localhost:8080/history/add-quiz-history`;
   
     try {
       const response = await fetch(url, {

@@ -23,7 +23,7 @@ const Login = () => {
       return handleError("Email and password are required");
     }
     try {
-      const url = `https://vercel.com/captain-calculus-projects/ai-powered-quiz-web-app/auth/login`;
+      const url = `http://localhost:8080/auth/login`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

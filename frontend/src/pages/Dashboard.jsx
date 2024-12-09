@@ -32,7 +32,7 @@ function DashBoard() {
             }
 
             try {
-                const response = await axios.get(`https://vercel.com/captain-calculus-projects/ai-powered-quiz-web-app/history/get-quiz-history`, {
+                const response = await axios.get(`http://localhost:8080/history/get-quiz-history`, {
                     params: { email }, // Pass email as a query parameter
                 });
                 setQuizHistory(response.data.quizHistory);  // Set fetched quiz history data to state
