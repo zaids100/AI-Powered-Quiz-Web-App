@@ -23,7 +23,7 @@ const Signup = () => {
       return handleError("All fields are required!");
     }
     try {
-      const url = `http://localhost:8080/auth/signup`;
+      const url = `https://ai-powered-quiz-web-app.onrender.com/auth/signup`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
