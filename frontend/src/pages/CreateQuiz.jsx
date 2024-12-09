@@ -19,7 +19,7 @@ const CreateQuiz = () => {
 
     const getQuizzData = async () => {
         try {
-            const url = "http://localhost:8080/auth/quiz-box";
+            const url = "https://ai-powered-quiz-web-app.onrender.com/auth/quiz-box";
             const payload = {
                 topic: quizInfo.topic,
                 number: quizInfo.number,
