@@ -10,6 +10,7 @@ const connectDB = require('./Config/db.js');
 connectDB();
 
 // Middlewares
+app.options('*', cors()); // Allow preflight requests for all routes
 app.use(express.json());  // Middleware for parsing JSON body
 app.use(express.urlencoded({ extended: true }));  // Middleware for parsing URL-encoded data
 app.use(cors({
