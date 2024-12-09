@@ -41,7 +41,7 @@ const Header = () => {
             <ul className="py-2">
               <li
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => alert("Navigating to Dashboard...")}
+                onClick={() => navigate("/dashboard")}
               >
                 Dashboard
               </li>
