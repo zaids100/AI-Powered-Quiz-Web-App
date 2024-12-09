@@ -13,7 +13,7 @@ connectDB();
 app.use(express.json());  // Middleware for parsing JSON body
 app.use(express.urlencoded({ extended: true }));  // Middleware for parsing URL-encoded data
 app.use(cors({
-    origin : ["https://ai-powered-quiz-web-app.onrender.com"],
+    origin : ["https://ai-powered-quiz-web-app-h53r.vercel.app"],
     methods : ["GET","POST"],
     credentials : true
 }));  // Cross-Origin Resource Sharing middleware
