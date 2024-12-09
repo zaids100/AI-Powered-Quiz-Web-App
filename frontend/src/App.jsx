@@ -7,6 +7,7 @@ import CreateQuiz from './pages/CreateQuiz.jsx';
 import { useState } from 'react';
 import RefreshHandler from './RefreshHandler.jsx';
 import QuizResults from './pages/QuizResults.jsx';
+import DashBoard from './pages/Dashboard.jsx';
 //Ritesh
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/create-quiz" element={<PrivateRoute element={<CreateQuiz />} />} />
                     <Route path="/quiz-box" element={<QuizBox/>}/>
                     <Route path="/quiz-results" element={<QuizResults />} />
+                    <Route path="/dashboard" element={<DashBoard/>}/>
                 </Routes>
             </Router>
         </div>
