@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const quizHistorySchema = new mongoose.Schema({
     title: { type: String, required: true },
     score: { type: Number, required: true },
+    total: {type :Number, required : true},
     date: { type: Date, default: Date.now }  // Date field to store the date of the quiz
   });
 

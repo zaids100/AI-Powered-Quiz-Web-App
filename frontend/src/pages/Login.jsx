@@ -38,6 +38,7 @@ const Login = () => {
         localStorage.setItem("token", jwToken);
         localStorage.setItem("loggedInUser", name);
         localStorage.setItem("email",loginInfo.email);
+        
         setTimeout(() => {
           navigate("/home");
         }, 1000);

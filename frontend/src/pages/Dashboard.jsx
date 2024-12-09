@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import axios from 'axios';
 
 // Registering necessary components for Chart.js
 ChartJS.register(
@@ -16,25 +17,46 @@ ChartJS.register(
 );
 
 function DashBoard() {
-    // Generate random data for the table
-    const dataTable = Array.from({ length: 10 }, (_, index) => ({
-        Quizz_Title: `Quiz ${index + 1}`,
-        Total: Math.floor(Math.random() * 100) , // Random total between 10 and 100
-        Correct: Math.floor(Math.random() * 100) , // Random correct answers
-        Incorrect: Math.floor(Math.random() * 100) , // Random incorrect answers
-        score: Math.floor(Math.random() * 10), // Random score between 0 and 100
-        color: `bg-${['green', 'blue', 'yellow', 'red', 'purple'][index % 5]}-200`
-    }));
-
+    const [quizHistory, setQuizHistory] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const email = localStorage.getItem("email"); // Retrieve email from localStorage
 
-    // Graph data based on the random data
+    // Fetch quiz history on component mount
+    useEffect(() => {
+        const fetchQuizHistory = async () => {
+            if (!email) {
+                console.error("No email found in localStorage.");
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await axios.get(`http://localhost:8080/history/get-quiz-history`, {
+                    params: { email }, // Pass email as a query parameter
+                });
+                setQuizHistory(response.data.quizHistory);  // Set fetched quiz history data to state
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching quiz history:", error);
+                setLoading(false);
+            }
+        };
+        fetchQuizHistory();
+    }, [email]);
+
+    // Check if data is still loading
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    // Graph data based on the quiz history
     const graphData = {
-        labels: dataTable.map(item => item.Quizz_Title),
+        labels: quizHistory.map(item => item.title),  // Using 'title' for the graph labels
         datasets: [
             {
                 label: 'Score Over Time',
-                data: dataTable.map(item => item.score), // Score data for the graph
+                data: quizHistory.map(item => (item.score/item.total)*100), // Using 'score' from quiz history
                 borderColor: 'rgb(75, 192, 192)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 tension: 0.1,
@@ -66,21 +88,20 @@ function DashBoard() {
                                     <th className="py-2 px-4">Total</th>
                                     <th className="py-2 px-4">Correct</th>
                                     <th className="py-2 px-4">Incorrect</th>
-                                    <th className="py-2 px-4">Score</th>
+                                    <th className="py-2 px-4">Accuracy</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {dataTable.map((item, index) => {
-                                    // Calculate the score based on the ratio of Correct/Total
-                                    const ratio = item.Total > 0 ? item.Correct / item.Total : 0;
-                                    const score = Math.min(Math.round(ratio * 10), 10);  // Ensure the score is between 0 and 10
+                                {quizHistory.map((item, index) => {
+                                    const accuracy=(item.score/item.total)*100;
+                                     // Use the score directly from the item
                                     return (
                                         <tr key={index} className="hover:bg-gray-700">
-                                            <td className="py-2 px-4">{item.Quizz_Title}</td>
-                                            <td className="py-2 px-4">{item.Total}</td>
-                                            <td className={`py-2 px-4 rounded-md`}>{item.Correct}</td>
-                                            <td className="py-2 px-4">{item.Incorrect}</td>
-                                            <td className="py-2 px-4">{score}</td>
+                                            <td className="py-2 px-4">{item.title}</td>
+                                            <td className="py-2 px-4">{item.total}</td>
+                                            <td className="py-2 px-4">{item.score}</td>
+                                            <td className="py-2 px-4">{item.total-item.score}</td>
+                                            <td className="py-2 px-4">{accuracy.toFixed(2)}</td> {/* Show score directly */}
                                         </tr>
                                     );
                                 })}
@@ -96,8 +117,6 @@ function DashBoard() {
             </div>
         </div>
     );
-    
-    
 }
 
 export default DashBoard;

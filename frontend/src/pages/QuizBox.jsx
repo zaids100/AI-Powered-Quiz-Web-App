@@ -9,7 +9,6 @@ const QuizBox = () => {
   const navigate = useNavigate();
   const quizData = location.state?.quizData;
   const currentQuestion = quizData?.questions[currentIndex];
-
   // Check if quiz data exists
   if (!quizData || !quizData.questions || quizData.questions.length === 0) {
     return (
@@ -22,7 +21,7 @@ const QuizBox = () => {
   // Handle finishing the quiz
   const handleFinishQuiz = async () => {
     const email = localStorage.getItem("email"); // Ensure the correct email is fetched
-  
+    // const total=quizData.questions.length;
     if (!email) {
       console.error("Email not found. User may not be logged in.");
       return; // Abort if no email is found
@@ -32,6 +31,7 @@ const QuizBox = () => {
       score: score,
       quizTitle: quizData.quizTitle,
       email: email, // Ensure the correct email is passed
+      total : quizData.questions.length
     };
   
     const url = `http://localhost:8080/history/add-quiz-history`;
