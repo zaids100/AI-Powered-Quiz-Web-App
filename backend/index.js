@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const PORT = process.env.PORT || 8080;
 const authRouter = require('./Router/AuthRouter.js');
-const quizHistory=require('./Router/quizHistoryRouter.js');
+const quizHistory=require('./Router/QuizHistoryRouter.js');
 // Connecting the database
 const connectDB = require('./Config/db.js');
 connectDB();
