@@ -12,7 +12,11 @@ connectDB();
 // Middlewares
 app.use(express.json());  // Middleware for parsing JSON body
 app.use(express.urlencoded({ extended: true }));  // Middleware for parsing URL-encoded data
-app.use(cors());  // Cross-Origin Resource Sharing middleware
+app.use(cors({
+    origin : ["https://deploy-mern-1whq.vercel.app"],
+    methods : ["POST","GET"],
+    credentials : true
+}));  // Cross-Origin Resource Sharing middleware
 
 // Routes
 app.use('/auth', authRouter);
