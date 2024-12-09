@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const PORT = process.env.PORT || 8080;
 const authRouter = require('./Router/AuthRouter.js');
-
+const quizHistory=require('./Router/quizHistoryRouter.js');
 // Connecting the database
 const connectDB = require('./Config/db.js');
 connectDB();
@@ -16,7 +16,7 @@ app.use(cors());  // Cross-Origin Resource Sharing middleware
 
 // Routes
 app.use('/auth', authRouter);
-
+app.use('/history',quizHistory);
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

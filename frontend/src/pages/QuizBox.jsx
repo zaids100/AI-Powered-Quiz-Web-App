@@ -19,6 +19,50 @@ const QuizBox = () => {
     );
   }
 
+  // Handle finishing the quiz
+  const handleFinishQuiz = async () => {
+    const email = localStorage.getItem("email"); // Ensure the correct email is fetched
+  
+    if (!email) {
+      console.error("Email not found. User may not be logged in.");
+      return; // Abort if no email is found
+    }
+  
+    const quizHistory = {
+      score: score,
+      quizTitle: quizData.quizTitle,
+      email: email, // Ensure the correct email is passed
+    };
+  
+    const url = `http://localhost:8080/history/add-quiz-history`;
+  
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(quizHistory),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log("Quiz data inserted into history successfully:", result);
+      } else {
+        console.error("Failed to insert quiz data:", result.message);
+      }
+    } catch (err) {
+      console.error("Error during quiz history submission:", err);
+    }
+  
+    // Navigate to quiz results
+    navigate("/quiz-results", {
+      state: { score, total: quizData.questions.length },
+    });
+  };
+  
+
   // Handle option click
   const handleClick = (option) => {
     if (selectedOption) return; // Prevent further clicks if an option is already selected
@@ -33,10 +77,6 @@ const QuizBox = () => {
     if (currentIndex < quizData.questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setSelectedOption(null); // Reset selected option for the next question
-    } else {
-      navigate("/quiz-results", {
-        state: { score, total: quizData.questions.length },
-      });
     }
   };
 
@@ -78,15 +118,36 @@ const QuizBox = () => {
         </ul>
 
         {/* Next Button */}
-        <button
-          onClick={handleChangeQuestion}
-          className={`mt-6 px-6 py-2 rounded-lg text-white ${
-            selectedOption ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-500 cursor-not-allowed"
-          }`}
-          disabled={!selectedOption} // Disable Next button until an option is selected
-        >
-          {currentIndex === quizData.questions.length - 1 ? "Finish Quiz" : "Next"}
-        </button>
+        <div className="mt-6">
+          {currentIndex < quizData.questions.length - 1 && (
+            <button
+              onClick={handleChangeQuestion}
+              className={`px-6 py-2 rounded-lg text-white ${
+                selectedOption
+                  ? "bg-blue-500 hover:bg-blue-600"
+                  : "bg-gray-500 cursor-not-allowed"
+              }`}
+              disabled={!selectedOption} // Disable Next button until an option is selected
+            >
+              Next
+            </button>
+          )}
+
+          {/* Finish Quiz Button */}
+          {currentIndex === quizData.questions.length - 1 && (
+            <button
+              onClick={handleFinishQuiz}
+              className={`px-6 py-2 rounded-lg text-white ${
+                selectedOption
+                  ? "bg-green-500 hover:bg-green-600"
+                  : "bg-gray-500 cursor-not-allowed"
+              }`}
+              disabled={!selectedOption} // Disable Finish button until an option is selected
+            >
+              Finish Quiz
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

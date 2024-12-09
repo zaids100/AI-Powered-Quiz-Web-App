@@ -1,6 +1,7 @@
 const { signup, login } = require('../Controllers/AuthController.js');
 const { signupValidation, loginValidation } = require('../Middlewares/AuthValidation.js');
 const { getQuizData } = require('../Controllers/GeminiController.js');
+
 const router = require('express').Router();
 
 // User authentication routes
