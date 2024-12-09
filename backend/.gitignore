@@ -89,7 +89,7 @@ public/
 dist/
 
 # Svelte build output
-__sapper__/
+_sapper_/
 .svelte-kit/
 
 # Temporary directories
