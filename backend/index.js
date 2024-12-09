@@ -15,9 +15,9 @@ app.use(express.urlencoded({ extended: true }));  // Middleware for parsing URL-
 app.use(cors());  // Cross-Origin Resource Sharing middleware
 
 // Routes
-app.use('/',(req,res)=>{
-    res.send("Hello From Server");
-});
+// app.use('/',(req,res)=>{
+//     res.send("Hello From Server");
+// });
 app.use('/auth', authRouter);
 app.use('/history',quizHistory);
 // Start the server
